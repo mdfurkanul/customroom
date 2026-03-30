@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Webinar</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#b9dffc',
+                            300: '#7cc5f9',
+                            400: '#36a8f3',
+                            500: '#0888e8',
+                            600: '#076fcc',
+                            700: '#0a5aaa',
+                            800: '#0f4a8a',
+                            900: '#0f3f6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white min-h-screen">
+    <!-- Main Content -->
+    <main class="max-w-[1800px] mx-auto p-6">
+        <div class="flex gap-0 main-layout" style="height: calc(100vh - 50px);">
+            <!-- Video Section -->
+            <section class="flex-1 flex flex-col video-section">
+                <!-- Video Player Container -->
+                <div class="video-container bg-gray-100 overflow-hidden flex-1 relative">
+                    <!-- Blurred Background -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-100 via-amber-50 to-blue-200 opacity-50"></div>
+
+                    <!-- Big Play Button Overlay -->
+                    <div class="play-overlay absolute inset-0 flex flex-col items-center justify-center z-10 cursor-pointer">
+                        <div class="play-button-wrapper">
+                            <div class="play-button-ring"></div>
+                            <div class="play-button-circle">
+                                <svg class="w-16 h-16 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="mt-8 text-white text-2xl font-bold tracking-wide drop-shadow-lg" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">START THE BROADCAST</p>
+                    </div>
+
+                    <video
+                        id="player"
+                        class="w-full h-full absolute inset-0"
+                        playsinline
+                        autoplay
+                        muted
+                        style="display: none;"
+                    >
+                        <source src="https://player.vimeo.com/progressive_redirect/playback/1118937725/rendition/1080p/file.mp4?loc=external&log_user=0&signature=32b8e8cca977c6692393f1063863deec454e5e0d93de3656653bfc6f706715a7" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <!-- Fullscreen Button (bottom right corner) -->
+                    <button class="fullscreen-btn absolute bottom-6 right-6 z-20 flex items-center gap-2 bg-black/80 hover:bg-black text-white rounded-lg px-4 py-2.5 transition-colors duration-300" title="Fullscreen">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                        </svg>
+                        <span class="hidden md:inline text-sm font-medium fullscreen-text">Fullscreen</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Chat Open Button (sticky on right when closed) -->
+            <div class="chat-open-container fixed top-1/2 right-0 transform -translate-y-1/2 z-30" style="display: none;">
+                <button class="show-chat-btn bg-white border border-gray-200 shadow-md rounded-l-lg p-3 hover:bg-gray-50 transition-colors" title="Open Chat">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Fullscreen Chat Open Button (visible only in fullscreen when chat is closed) -->
+            <div class="fullscreen-chat-open-container fixed top-1/2 right-0 transform -translate-y-1/2 z-10002" style="display: none;">
+                <button class="fullscreen-show-chat-btn bg-black/80 hover:bg-black border border-white/20 shadow-lg rounded-l-lg p-3 text-white transition-colors" title="Open Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Sidebar Divider with Close Button -->
+            <div class="sidebar-divider-container relative flex items-center mx-6">
+                <div class="w-px bg-gray-200"></div>
+                <button class="hide-chat-btn absolute -right-3 top-1/2 transform -translate-y-1/2 bg-white border border-gray-200 shadow-sm rounded-full p-1.5 hover:bg-gray-100 transition-colors z-20" title="Close Chat">
+                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="w-80 flex flex-col bg-white sidebar transition-all duration-300 border-l border-gray-200" style="height: calc(100vh - 50px);">
+                <!-- Fullscreen Close Chat Button (centered on left border) -->
+                <button class="fullscreen-hide-chat-btn flex items-center justify-center bg-black/80 hover:bg-black border border-white/20 shadow-lg rounded-l-full py-2 pl-2 pr-3 text-white transition-colors z-50" title="Close Chat">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+
+                <!-- Timer at top of chat box -->
+                <div class="border-b border-gray-200 px-4 py-2 flex items-center justify-center">
+                    <div class="flex items-center gap-2 text-gray-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span id="timer" class="font-mono text-sm">00:00:00</span>
+                    </div>
+                </div>
+
+                <!-- Chat Header -->
+                <div class="border-b border-gray-200 px-4 py-3">
+                    <div class="flex">
+                        <button class="tab-btn active px-3 py-3 text-sm font-medium text-brand-600 border-b-2 border-brand-600 flex items-center gap-2" data-tab="chat">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                            </svg>
+                            Chat
+                        </button>
+                        <button class="tab-btn px-3 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 flex items-center gap-2" data-tab="qa">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                            </svg>
+                            Q&A only
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Container -->
+                <div class="chat-messages flex-1 overflow-y-auto p-4" id="chat-messages">
+                    <!-- Welcome Message -->
+                    <div class="empty-state flex flex-col items-center justify-center h-full">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-gray-500">Don't be shy... start chatting</p>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="border-t border-gray-200 p-4">
+                    <form id="chat-form" class="flex items-center gap-3">
+                        <input
+                            type="text"
+                            id="chat-input"
+                            placeholder="Type your message..."
+                            class="flex-1 bg-transparent border-0 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-0"
+                        >
+                        <button
+                            type="submit"
+                            class="send-btn p-2 text-brand-600 hover:text-brand-700 transition-colors"
+                        >
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- App Script -->
+    <script>
+        // Cache-busting: Add timestamp to CSS and JS files
+        const version = Date.now();
+        document.write('<link rel="stylesheet" href="styles.css?v=' + version + '" />');
+        document.write('<script src="app.js?v=' + version + '" defer><\/script>');
+    </script>
+</body>
+</html>

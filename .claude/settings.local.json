@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open /Users/furqan/Desktop/Projects/custom-live-room/index.html)",
+      "Bash(lsof -i :8000)",
+      "Bash(python3 -m http.server 8000)"
+    ]
+  }
+}
