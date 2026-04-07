@@ -3,11 +3,14 @@
 let isPlaying = false;
 let isMuted = true; // Start muted for autoplay
 
+// Offer message settings - adjust the time (in seconds) when the offer appears
+const OFFER_TRIGGER_TIME = 10; // 10 seconds for testing (change this value to adjust)
+let offerShown = false;
+
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
     initPlayer();
     initChat();
-    initTabs();
     initTimer();
     initChatToggle();
     initFullscreen();
@@ -136,6 +139,19 @@ function initPlayer() {
     // When video starts playing
     player.addEventListener('play', function() {
         isPlaying = true;
+    });
+
+    // When video pauses
+    player.addEventListener('pause', function() {
+        isPlaying = false;
+    });
+
+    // Check video time for offer message - only show when video is playing
+    player.addEventListener('timeupdate', function() {
+        if (!offerShown && isPlaying && player.currentTime >= OFFER_TRIGGER_TIME) {
+            showOfferMessage();
+            offerShown = true;
+        }
     });
 
     // When video ends
@@ -478,31 +494,6 @@ function escapeHtml(text) {
 }
 
 /**
- * Initialize Tab Functionality
- */
-function initTabs() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const tabId = this.getAttribute('data-tab');
-
-            tabButtons.forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.color = '';
-                btn.style.borderColor = '';
-            });
-
-            this.classList.add('active');
-            this.style.color = '#076fcc';
-            this.style.borderColor = '#076fcc';
-        });
-    });
-
-    console.log('Tabs initialized');
-}
-
-/**
  * Initialize Timer
  */
 function initTimer() {
@@ -546,6 +537,16 @@ function showNotification(message) {
     setTimeout(() => {
         notification.classList.remove('show');
     }, 3000);
+}
+
+/**
+ * Show Offer Message
+ */
+function showOfferMessage() {
+    const offerContainer = document.getElementById('offer-cta-container');
+    if (offerContainer) {
+        offerContainer.classList.remove('hidden');
+    }
 }
 
 /**

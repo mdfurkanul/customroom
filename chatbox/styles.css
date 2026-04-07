@@ -556,6 +556,151 @@ button:focus-visible {
     outline-offset: 2px;
 }
 
+/* Offer CTA Section (outside video section) */
+.offer-cta-container {
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.offer-cta-container.hidden {
+    display: none;
+}
+
+.offer-cta-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    max-width: 800px;
+    width: 100%;
+}
+
+.offer-cta-image {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+.offer-cta-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.offer-cta-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.offer-cta-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.offer-cta-btn {
+    background: linear-gradient(135deg, #076fcc 0%, #0888e8 100%);
+    color: white;
+    text-decoration: none;
+    padding: 28px 64px;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: inline-block;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(7, 111, 204, 0.4);
+    animation: cta-pulse 2s ease-in-out infinite;
+}
+
+@keyframes cta-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(7, 111, 204, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(7, 111, 204, 0.6);
+    }
+}
+
+.offer-cta-btn:hover {
+    background: linear-gradient(135deg, #0a5aaa 0%, #076fcc 100%);
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(7, 111, 204, 0.7);
+    animation: none;
+}
+
+.offer-cta-link {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+.offer-cta-link a {
+    color: #076fcc;
+    text-decoration: underline;
+}
+
+.offer-cta-link a:hover {
+    color: #0a5aaa;
+}
+
+.offer-cta-subtext {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Mobile responsive for offer CTA */
+@media (max-width: 768px) {
+    .offer-cta-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .offer-cta-image {
+        width: 100%;
+        height: 160px;
+    }
+
+    .offer-cta-title {
+        font-size: 18px;
+    }
+
+    .offer-cta-btn {
+        width: 100%;
+        text-align: center;
+        padding: 14px 32px;
+        font-size: 16px;
+        animation: none;
+        box-shadow: none;
+    }
+
+    .offer-cta-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(7, 111, 204, 0.3);
+    }
+}
+
 /* Fix timer z-index to appear above arrow button */
 .sidebar {
     position: relative;
