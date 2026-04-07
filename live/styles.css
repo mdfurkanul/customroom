@@ -141,6 +141,17 @@ body {
     opacity: 1;
 }
 
+/* iOS Safari fullscreen support */
+.video-section:-webkit-full-screen-document {
+    width: 100%;
+    height: 100%;
+}
+
+.video-section:-webkit-full-screen-document .video-container {
+    height: 100%;
+    width: 100%;
+}
+
 /* Play Overlay */
 .play-overlay {
     opacity: 1;
@@ -208,13 +219,59 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    padding: 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .fullscreen-btn:hover {
     background: rgba(0, 0, 0, 0.9);
+}
+
+.fullscreen-btn:active {
+    transform: scale(0.95);
+}
+
+/* Notification Toast */
+.notification-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notification-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Mobile responsive for fullscreen button */
+@media (max-width: 768px) {
+    .fullscreen-btn {
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .fullscreen-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .fullscreen-text {
+        display: none !important;
+    }
 }
 
 /* Offer CTA Section (outside video section) */

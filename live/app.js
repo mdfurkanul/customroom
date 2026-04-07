@@ -8,12 +8,61 @@ let userStartedVideo = false; // Track if user actively started the video
 const OFFER_TRIGGER_TIME = 10; // 10 seconds for testing (change this value to adjust)
 let offerShown = false;
 
+// Zapier webhook settings
+const ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/9848534/u7dv4yn/';
+const VIDEO_TRIGGER_TIME = 15; // Send webhook when video hits 15 seconds
+let webhookSent = false; // Track if webhook has been sent
+
+// Extract lead data from URL parameters
+let leadEmail = '';
+let leadFirstName = '';
+
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
+    extractUrlParams();
     initPlayer();
     initFullscreen();
     disableRightClick();
 });
+
+/**
+ * Extract URL Parameters
+ */
+function extractUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    leadEmail = urlParams.get('wj_lead_email') || '';
+    leadFirstName = urlParams.get('wj_lead_first_name') || '';
+    console.log('Lead data extracted:', { email: leadEmail, firstName: leadFirstName });
+}
+
+/**
+ * Send Lead Data to Zapier Webhook
+ */
+function sendLeadWebhook() {
+    if (webhookSent || !leadEmail) {
+        return;
+    }
+
+    webhookSent = true;
+    console.log('Sending lead data to Zapier:', { email: leadEmail, firstName: leadFirstName });
+
+    fetch(ZAPIER_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: leadEmail,
+            first_name: leadFirstName
+        })
+    })
+    .then(response => {
+        console.log('Webhook sent successfully:', response.status);
+    })
+    .catch(error => {
+        console.error('Webhook error:', error);
+    });
+}
 
 /**
  * Disable Right-Click Context Menu
@@ -148,8 +197,14 @@ function initPlayer() {
         isPlaying = false;
     });
 
-    // Check video time for offer message - only show when user has actively started the video
+    // Check video time for offer message and webhook - only show when user has actively started the video
     player.addEventListener('timeupdate', function() {
+        // Send Zapier webhook at 15 seconds
+        if (!webhookSent && userStartedVideo && isPlaying && player.currentTime >= VIDEO_TRIGGER_TIME) {
+            sendLeadWebhook();
+        }
+
+        // Show offer message
         if (!offerShown && userStartedVideo && isPlaying && player.currentTime >= OFFER_TRIGGER_TIME) {
             // Exit fullscreen if we're in fullscreen mode
             if (document.fullscreenElement || document.webkitFullscreenElement) {
@@ -194,26 +249,38 @@ function initPlayer() {
  */
 function toggleFullscreen() {
     const videoSection = document.querySelector('.video-section');
+    const player = document.getElementById('player');
 
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         // Enter fullscreen mode
         if (videoSection.requestFullscreen) {
-            videoSection.requestFullscreen();
+            videoSection.requestFullscreen().catch(err => {
+                console.log('Fullscreen request failed:', err);
+            });
         } else if (videoSection.webkitRequestFullscreen) {
             videoSection.webkitRequestFullscreen();
+        } else if (videoSection.msRequestFullscreen) {
+            videoSection.msRequestFullscreen();
+        } else if (videoSection.mozRequestFullScreen) {
+            videoSection.mozRequestFullScreen();
         }
     } else {
         // Exit fullscreen mode - check if we should show the offer
-        const player = document.getElementById('player');
         if (player && player.currentTime >= OFFER_TRIGGER_TIME) {
             showOfferMessage();
         }
 
         // Exit fullscreen mode
         if (document.exitFullscreen) {
-            document.exitFullscreen();
+            document.exitFullscreen().catch(err => {
+                console.log('Exit fullscreen failed:', err);
+            });
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
         }
     }
 }
@@ -231,7 +298,7 @@ function initFullscreen() {
         });
     }
 
-    // Listen for fullscreen changes (for icon update)
+    // Listen for fullscreen changes (for icon update) - use standard event
     document.addEventListener('fullscreenchange', function() {
         updateFullscreenIcon();
         // Hide fullscreen button when in fullscreen
@@ -245,6 +312,7 @@ function initFullscreen() {
         }
     });
 
+    // Webkit-prefixed fullscreen change for iOS Safari
     document.addEventListener('webkitfullscreenchange', function() {
         updateFullscreenIcon();
         const fullscreenBtn = document.querySelector('.fullscreen-btn');
