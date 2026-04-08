@@ -3,114 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="bingbot" content="noindex, nofollow">
+    <meta name="searchvisit" content="no">
+    <meta name="ai2bot" content="noindex, nofollow">
+    <meta name="Applebot-Extended" content="noindex, nofollow">
+    <meta name="GPTBot" content="noindex, nofollow">
+    <meta name="Googlebot-Image" content="noindex, nofollow">
+    <meta name="ChatGPT-User" content="noindex, nofollow">
+    <meta name="OAI-Searchbot" content="noindex, nofollow">
+    <meta name="Bytespider" content="noindex, nofollow">
+    <meta name="ClaudeBot" content="noindex, nofollow">
+    <meta name="PerplexityBot" content="noindex, nofollow">
     <title>Live Webinar</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f7ff',
-                            100: '#e0effe',
-                            200: '#b9dffc',
-                            300: '#7cc5f9',
-                            400: '#36a8f3',
-                            500: '#0888e8',
-                            600: '#076fcc',
-                            700: '#0a5aaa',
-                            800: '#0f4a8a',
-                            900: '#0f3f6e',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Open Sans', 'system-ui', '-apple-system', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script id="app-config"
+        data-webhook-url="https://hooks.zapier.com/hooks/catch/9848534/u7dv4yn/"
+        data-offer-trigger-time="10"
+        data-video-trigger-time="15"
+    ></script>
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-white min-h-screen">
-    <!-- Main Content -->
-    <main class="max-w-[1440px] mx-auto p-6">
-        <div class="flex flex-col gap-6">
-            <!-- Video Section -->
-            <section class="video-section">
-                <!-- Video Player Container -->
-                <div class="video-container bg-gray-100 overflow-hidden relative">
-                    <!-- Blurred Background -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-100 via-amber-50 to-blue-200 opacity-50"></div>
-
-                    <!-- Big Play Button Overlay -->
-                    <div class="play-overlay absolute inset-0 flex flex-col items-center justify-center z-10 cursor-pointer">
-                        <div class="play-button-wrapper">
-                            <div class="play-button-ring"></div>
-                            <div class="play-button-circle">
-                                <svg class="w-16 h-16 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                            </div>
+<body>
+    <main class="main-layout">
+        <section class="video-section">
+            <div class="video-container">
+                <div class="video-bg"></div>
+                <div class="play-overlay">
+                    <div class="play-button-wrapper">
+                        <div class="play-button-ring"></div>
+                        <div class="play-button-circle">
+                            <svg class="play-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
                         </div>
-                        <p class="mt-8 text-white text-2xl font-bold tracking-wide drop-shadow-lg" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">START THE BROADCAST</p>
                     </div>
-
-                    <video
-                        id="player"
-                        class="w-full h-full absolute inset-0"
-                        playsinline
-                        autoplay
-                        muted
-                        style="display: none;"
-                    >
-                        <source src="https://player.vimeo.com/progressive_redirect/playback/1118937725/rendition/1080p/file.mp4?loc=external&log_user=0&signature=32b8e8cca977c6692393f1063863deec454e5e0d93de3656653bfc6f706715a7" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-
-                    <!-- Fullscreen Button (bottom right corner) -->
-                    <button class="fullscreen-btn absolute bottom-6 right-6 z-20 flex items-center gap-2 bg-black/80 hover:bg-black text-white rounded-lg px-4 py-2.5 transition-colors duration-300" title="Fullscreen">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                        </svg>
-                        <span class="hidden md:inline text-sm font-medium fullscreen-text">Fullscreen</span>
-                    </button>
+                    <p class="play-text">START THE BROADCAST</p>
                 </div>
-            </section>
-
-            <!-- Offer CTA Section (separate section) -->
-            <section id="offer-cta-container" class="offer-cta-container hidden">
-                    <div class="offer-cta-content">
-                        <div class="offer-cta-image">
-                            <img src="images/offer.png" alt="Swing Trading Mentorship Program">
-                        </div>
-                        <div class="offer-cta-body">
-                            <h3 class="offer-cta-title">Swing Trading Mentorship Program</h3>
-                            <a href="https://keystoneinvestors.com/schedules/" target="_blank" class="offer-cta-btn">
-                                Schedule Your Call
-                            </a>
-                            <p class="offer-cta-link">
-                                Or visit: <a href="https://keystoneinvestors.com/schedules/" target="_blank">keystoneinvestors.com/schedules/</a>
-                            </p>
-                            <p class="offer-cta-subtext">Get More Information Today</p>
-                        </div>
-                    </div>
-                </section>
+                <video id="player" playsinline webkit-playsinline autoplay muted preload="auto">
+                    <source src="https://player.vimeo.com/progressive_redirect/playback/1118937725/rendition/1080p/file.mp4?loc=external&log_user=0&signature=32b8e8cca977c6692393f1063863deec454e5e0d93de3656653bfc6f706715a7" type="video/mp4">
+                </video>
+                <button class="fullscreen-btn" title="Fullscreen">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                    </svg>
+                    <span class="fullscreen-text">Fullscreen</span>
+                </button>
             </div>
+        </section>
+        <section id="offer-cta-container" class="offer-cta-container hidden">
+            <div class="offer-cta-content">
+                <div class="offer-cta-image">
+                    <img src="images/offer.png" alt="Swing Trading Mentorship Program">
+                </div>
+                <div class="offer-cta-body">
+                    <h3 class="offer-cta-title">Swing Trading Mentorship Program</h3>
+                    <a href="https://keystoneinvestors.com/schedules/" target="_blank" class="offer-cta-btn">Schedule Your Call</a>
+                    <p class="offer-cta-link">Or visit: <a href="https://keystoneinvestors.com/schedules/" target="_blank">keystoneinvestors.com/schedules/</a></p>
+                    <p class="offer-cta-subtext">Get More Information Today</p>
+                </div>
+            </div>
+        </section>
     </main>
-
-    <!-- App Script -->
-    <script>
-        // Cache-busting: Add timestamp to CSS and JS files
-        const version = Date.now();
-        document.write('<link rel="stylesheet" href="styles.css?v=' + version + '" />');
-        document.write('<script src="app.js?v=' + version + '" defer><\/script>');
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
